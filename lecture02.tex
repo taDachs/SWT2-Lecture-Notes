@@ -1,0 +1,147 @@
+\lecture{2}{Clean Code}
+
+\subsection{Motivation}
+
+\begin{itemize}
+  \item Bad code is like a broken window, it starts the process towards decay.
+  \item Code is not written for the compiler but for the next person that reads it, therefore it
+    should be readable.
+  \item Code is (hopefully) written once but read many times more.
+\end{itemize}
+
+Bad code leads to increased complexity and with that to an increase in costs for new features or any
+other change in the software (Lehman's first law: \textit{a system that is used will be changed}). 
+%
+
+%
+This can be summarized by Lehman's second law: \textit{An evolving system increases its complexity
+unless work is done to reduce it}.
+%
+The agile movement claims that the cost (and the complexity) can be kept low by continuous
+\emph{refactoring}.
+
+\subsection{What is Clean Code}
+
+\begin{quote}
+  \textit{Just take some guidelines, call them "Klean Kode" and stick with them.}
+ 
+  - T. Soding
+\end{quote}
+%
+
+%
+In this lecture this mostly refers to "Uncle Bob"-style clean code. Those are field-tested
+\textbf{recommendations}.
+%
+One should mainly think about the underlying structure of the code. 
+%
+Object-Oriented Design (\textit{OOD}) is a design strategy that tries to make code more maintainable
+and understandable.
+
+\subsection{SOLID}
+
+\begin{itemize}
+  \item \textbf{S}ingle Responsibility Principle (SRP)
+  \item \textbf{O}pen Closed Principle (OCP)
+  \item \textbf{L}iskov Substitution Principle (LSP)
+  \item \textbf{I}nterface Segregation Principle (ISP)
+  \item \textbf{D}ependency Inversion Principle (DIP)
+\end{itemize}
+
+\subsubsection{Single Responsibility Principle}
+
+\begin{quote}
+  \textit{There should never be more than \textbf{one reason} for a class \textbf{to change}.}
+
+  - Uncle Bob
+\end{quote}
+
+Each class/component should only deal with one core concern.
+%
+This reduces number of changes that have to be made the components when the requirements change. 
+%
+It should also reduce the size of classes, therefore making them easier to understand.\todo{add
+example from lecture}
+%
+
+%
+A further specialization of that principle is \emph{Command-Query-Separation}.
+%
+For this principle functions are separated into commands, which have side effects i.e. change the
+state, and queries, which don't change the state but return a value.
+
+\begin{verbatim}
+public class Missile {
+  private String name;
+  ...
+  public String getName() {
+    launch();
+    return name;
+  }
+}
+\end{verbatim}
+
+
+\subsubsection{Open Closed Principle}
+
+\begin{quote}
+  \textit{Software entities (classes, modules, functions, etc.) should be open for extension, but
+  closed for modification.}
+
+  - Uncle Bob, paraphrasing B. Meyer
+\end{quote}
+
+Modifying the behavior of a component should be done by adding new code, not by changing old code.
+%
+The idea is relatively simple: If you don't change the old code, it doesn't change, so it doesn't
+break.
+%
+
+
+\subsubsection{Liskov Substitution Principle}
+
+\begin{quote}
+  \textit{Functions that use pointers or references to base classes must be able to use objects of
+  derived classes without knowing it}
+
+  - Uncle Bob
+\end{quote}
+
+Should usually be forced by the compiler/type system, but also applies to pre- and postconditions.
+%
+Relates the \emph{Design by Contract}: Overriding a function in a derivative class should only make
+the precondition weaker and the postcondition stronger.\todo{add the stupid square example}
+
+
+\subsubsection{Interface Segregation Principle}
+
+\begin{quote}
+  \textit{Clients should not be forced to depend upon interfaces that they do not use}
+
+  - Uncle Bob
+\end{quote}
+
+Interfaces should only deal with one single concern (high cohesion). 
+%
+They should also not depend on other interfaces just because a subclass requires those.
+%
+
+
+
+\subsubsection{Dependency Inversion Principle}
+
+\begin{quote}
+  \textit{
+    \textbf{A.} High level modules should not depend upon low level modules. Both should depend upon
+  abstractions.\\
+    \textbf{B.} Abstractions should not depend upon details. Details should depend upon
+abstractions
+  }
+
+  - Uncle Bob
+\end{quote}
+
+Instead of depending on a specific implementation a component should always depend on an interface.
+%
+This makes it possible to have all dependencies flow in one direction, i.e. from low abstraction to
+high abstraction.
